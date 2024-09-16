@@ -3,9 +3,10 @@ const String jsonPath = "assets/json";
 const String iconsPath = "assets/icons";
 const String svgPath = "assets/svg_images";
 
+// assets/images/splash_screen.png
 abstract class ImageAssets {
   static const String routeLogo = "$imagePath/splash_logo.png";
-  static const String splashScreen = "$imagePath/splash_screen.png";
+  static const String splashScreen = "$imagePath/Splash Screen.png";
   static const String categoryCardImage = "$imagePath/category_card_image.png";
 
   static const String subcategoryCardImage =
