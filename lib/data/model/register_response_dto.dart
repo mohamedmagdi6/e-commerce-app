@@ -16,7 +16,7 @@ class RegisterResponseDto extends RegisterResponseEntity {
   }
 }
 
-class UserDto extends UserEntity {
+class UserDto extends RegisterUserEntity {
   String? role;
 
   UserDto({
