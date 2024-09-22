@@ -4,4 +4,5 @@ import 'package:e_commerce_app/domain/failures.dart';
 
 abstract class HomeTabRepository {
   Future<Either<CategoriesOrBrandsResponseEntity, Failures>> getAllCategories();
+  Future<Either<CategoriesOrBrandsResponseEntity, Failures>> getBrands();
 }

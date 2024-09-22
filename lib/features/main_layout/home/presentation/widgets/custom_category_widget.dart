@@ -35,22 +35,6 @@ class CustomCategoryWidget extends StatelessWidget {
             );
           },
         ),
-
-        // ClipRRect(
-        //   borderRadius: BorderRadius.circular(100.r),
-        //   child: Container(
-        //     height: 100.h,
-        //     width: 100.w,
-        //     decoration: const BoxDecoration(
-        //       shape: BoxShape.circle,
-        //     ),
-        //     child: Image.network(
-        //       data.image!,
-        //       fit: BoxFit.cover,
-        //     ),
-        //   ),
-        // ),
-
         Text(
           data?.name ?? 'df',
           style: getRegularStyle(color: ColorManager.darkBlue, fontSize: 14.sp),

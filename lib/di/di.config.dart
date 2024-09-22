@@ -25,6 +25,7 @@ import '../data/repository/home_tab_repository_impl.dart' as _i859;
 import '../domain/repository/auth_repository.dart' as _i306;
 import '../domain/repository/home_tab_repository.dart' as _i1052;
 import '../domain/use_cases/all_gategories_use_case.dart' as _i53;
+import '../domain/use_cases/brands_use_case.dart' as _i135;
 import '../domain/use_cases/login_use_case.dart' as _i826;
 import '../domain/use_cases/register_use_case.dart' as _i772;
 import '../features/auth/presentation/screens/login/login_screen_view_model.dart'
@@ -50,10 +51,10 @@ extension GetItInjectableX on _i174.GetIt {
         _i978.AuthRemoteDataSourceImpl(apiManager: gh<_i704.ApiManager>()));
     gh.factory<_i306.AuthRepository>(() => _i461.AuthRepositoryImpl(
         authRemoteDataSource: gh<_i1036.AuthRemoteDataSource>()));
-    gh.factory<_i772.RegisterUseCase>(() =>
-        _i772.RegisterUseCase(authRepository: gh<_i306.AuthRepository>()));
     gh.factory<_i826.LoginUseCase>(
         () => _i826.LoginUseCase(authRepository: gh<_i306.AuthRepository>()));
+    gh.factory<_i772.RegisterUseCase>(() =>
+        _i772.RegisterUseCase(authRepository: gh<_i306.AuthRepository>()));
     gh.factory<_i490.HomeTabRemoteDataSource>(() =>
         _i710.HomeTabRemoteDataSourceImpl(apiManager: gh<_i704.ApiManager>()));
     gh.factory<_i912.LoginScreenViewModel>(() =>
@@ -65,8 +66,12 @@ extension GetItInjectableX on _i174.GetIt {
             registerUseCase: gh<_i772.RegisterUseCase>()));
     gh.factory<_i53.AllCategoriesUseCase>(() => _i53.AllCategoriesUseCase(
         homeTabRepository: gh<_i1052.HomeTabRepository>()));
+    gh.factory<_i135.BrandsUseCase>(() =>
+        _i135.BrandsUseCase(homeTabRepository: gh<_i1052.HomeTabRepository>()));
     gh.factory<_i898.HomeTabViewModel>(() => _i898.HomeTabViewModel(
-        allCategoriesUseCase: gh<_i53.AllCategoriesUseCase>()));
+          allCategoriesUseCase: gh<_i53.AllCategoriesUseCase>(),
+          brandsUseCase: gh<_i135.BrandsUseCase>(),
+        ));
     return this;
   }
 }

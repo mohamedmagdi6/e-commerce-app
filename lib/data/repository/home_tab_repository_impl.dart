@@ -15,4 +15,13 @@ class HomeTabRepositoryImpl implements HomeTabRepository {
     var either = await homeTabRemoteDataSource.getAllCategories();
     return either.fold((response) => Left(response), (error) => Right(error));
   }
+
+  @override
+  Future<Either<CategoriesOrBrandsResponseEntity, Failures>> getBrands() async {
+    var either = await homeTabRemoteDataSource.getBrands();
+    return either.fold(
+      (response) => Left(response),
+      (error) => Right(error),
+    );
+  }
 }

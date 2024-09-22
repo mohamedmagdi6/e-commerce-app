@@ -3,6 +3,8 @@ import 'package:e_commerce_app/domain/failures.dart';
 
 class HomeTabStates {}
 
+class HomeTabInitState extends HomeTabStates {}
+
 class AllCategoriesLoadingState extends HomeTabStates {}
 
 class AllCategoriesFailureState extends HomeTabStates {
@@ -13,4 +15,16 @@ class AllCategoriesFailureState extends HomeTabStates {
 class AllCategoriesSuccessState extends HomeTabStates {
   CategoriesOrBrandsResponseEntity categoriesResponseEntity;
   AllCategoriesSuccessState({required this.categoriesResponseEntity});
+}
+
+class BrandsLoadingState extends HomeTabStates {}
+
+class BrandsFailureState extends HomeTabStates {
+  Failures failures;
+  BrandsFailureState({required this.failures});
+}
+
+class BrandsSuccessState extends HomeTabStates {
+  CategoriesOrBrandsResponseEntity brandsResponseEntity;
+  BrandsSuccessState({required this.brandsResponseEntity});
 }
