@@ -9,8 +9,7 @@ class LoginScreenViewModel extends Cubit<LoginScreenStates> {
   LoginUseCase loginUseCase;
   var emailaController = TextEditingController();
   var passwordController = TextEditingController();
-  LoginScreenViewModel(
-      {required this.loginUseCase, required LoginUseCase registerUseCase})
+  LoginScreenViewModel({required this.loginUseCase})
       : super(LoginScreenInitState());
 
   void logIn() async {

@@ -49,6 +49,7 @@ dependencies:
   connectivity_plus: ^6.0.5
   injectable: ^2.4.4
   get_it: ^7.7.0
+  skeletonizer: ^1.4.2
 
 dev_dependencies:
   flutter_test:

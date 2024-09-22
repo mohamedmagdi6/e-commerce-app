@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:e_commerce_app/data/data_sources/remote_data_source/auth_remote_data_source.dart';
+import 'package:e_commerce_app/data/data_sources/remote_data_source/auth_remote_data_source/auth_remote_data_source.dart';
 import 'package:e_commerce_app/domain/entities/login_response_entity.dart';
 import 'package:e_commerce_app/domain/entities/register_response_entity.dart';
 import 'package:e_commerce_app/domain/failures.dart';

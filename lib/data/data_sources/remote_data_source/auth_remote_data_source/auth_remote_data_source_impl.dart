@@ -1,11 +1,10 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce_app/data/api_manager.dart';
-import 'package:e_commerce_app/data/data_sources/remote_data_source/auth_remote_data_source.dart';
+import 'package:e_commerce_app/data/data_sources/remote_data_source/auth_remote_data_source/auth_remote_data_source.dart';
 import 'package:e_commerce_app/data/end_points.dart';
 import 'package:e_commerce_app/data/model/login_response_dto.dart';
 import 'package:e_commerce_app/data/model/register_response_dto.dart';
-import 'package:e_commerce_app/domain/entities/login_response_entity.dart';
 import 'package:e_commerce_app/domain/failures.dart';
 import 'package:injectable/injectable.dart';
 
@@ -40,7 +39,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Either<LoginResponseEntity, Failures>> loginData(
+  Future<Either<LoginResponseDto, Failures>> loginData(
       String email, String password) async {
     var checkResult = await Connectivity().checkConnectivity();
     var response = await apiManager.postData(EndPoints.signIn, body: {

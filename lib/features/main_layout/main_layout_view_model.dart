@@ -11,7 +11,7 @@ class MainLayoutViewModel extends Cubit<MainLayoutStates> {
 
   int currentIndex = 0;
   List<Widget> tabs = [
-    const HomeTab(),
+    HomeTab(),
     const CategoriesTab(),
     const FavouriteScreen(),
     const ProfileTab(),
