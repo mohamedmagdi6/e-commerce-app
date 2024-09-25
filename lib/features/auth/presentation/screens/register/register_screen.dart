@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/routes_manager/routes.dart';
 import 'package:e_commerce_app/di/di.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/register/register_screen_states.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/register/register_screen_view_model.dart';
@@ -31,6 +32,11 @@ class RegisterScreen extends StatelessWidget {
         } else if (state is RegisterScreenSuccessState) {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text('success')));
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.mainRoute,
+            (route) => false,
+          );
         }
       },
       child: Scaffold(

@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/shared_prefrence_utils.dart';
 import 'package:e_commerce_app/di/di.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/login/login_screen_states.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/login/login_screen_view_model.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../../../core/resources/assets_manager.dart';
 import '../../../../../core/resources/color_manager.dart';
 import '../../../../../core/resources/font_manager.dart';
@@ -35,6 +35,8 @@ class LoginScreen extends StatelessWidget {
         } else if (state is LoginScreenSuccessState) {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text('success')));
+          SharedPrefrenceUtils.saveData(
+              key: 'token', value: state.loginResponseEntity.token);
           Navigator.pushNamedAndRemoveUntil(
               context, Routes.mainRoute, (route) => false);
         }
@@ -117,9 +119,9 @@ class LoginScreen extends StatelessWidget {
                         textStyle: getBoldStyle(
                             color: ColorManager.primary, fontSize: AppSize.s18),
                         onTap: () {
-                          // loginScreenViewModel.logIn();
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, Routes.mainRoute, (route) => false);
+                          loginScreenViewModel.logIn();
+                          // Navigator.pushNamedAndRemoveUntil(
+                          //     context, Routes.mainRoute, (route) => false);
                         },
                       ),
                     ),

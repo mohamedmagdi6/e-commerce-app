@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/routes_manager/routes.dart';
+import 'package:e_commerce_app/core/shared_prefrence_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,13 +35,32 @@ class ProfileTabState extends State<ProfileTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SvgPicture.asset(
-                SvgAssets.routeLogo,
-                height: AppSize.s40,
-                colorFilter: ColorFilter.mode(
-                  ColorManager.primary,
-                  BlendMode.srcIn,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SvgPicture.asset(
+                    SvgAssets.routeLogo,
+                    height: AppSize.s40,
+                    colorFilter: ColorFilter.mode(
+                      ColorManager.primary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      SharedPrefrenceUtils.prefs.remove('token');
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        Routes.signInRoute,
+                        (route) => false,
+                      );
+                    },
+                    icon: Icon(
+                      Icons.logout,
+                    ),
+                    color: ColorManager.darkBlue,
+                  )
+                ],
               ),
               SizedBox(height: AppSize.s20.h),
               Text(
