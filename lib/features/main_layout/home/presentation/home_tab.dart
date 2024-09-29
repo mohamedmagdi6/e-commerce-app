@@ -41,19 +41,17 @@ class HomeTab extends StatelessWidget {
               Column(
                 children: [
                   CustomSectionBar(sectionNname: 'Categories', function: () {}),
-                  state is AllCategoriesSuccessState
+                  viewModel.categoryData != null
                       ? SizedBox(
                           height: 270.h,
                           child: GridView.builder(
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return CustomCategoryWidget(
-                                data:
-                                    state.categoriesResponseEntity.data![index],
+                                data: viewModel.categoryData![index],
                               );
                             },
-                            itemCount:
-                                state.categoriesResponseEntity.data!.length,
+                            itemCount: viewModel.categoryData!.length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
