@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/domain/entities/all_products_response_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,14 +8,15 @@ import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/widget/custom_elevated_button.dart';
 import '../widgets/product_color.dart';
 import '../widgets/product_description.dart';
-import '../widgets/product_item.dart';
 import '../widgets/product_label.dart';
 import '../widgets/product_rating.dart';
 import '../widgets/product_size.dart';
 import '../widgets/product_slider.dart';
 
+// ignore: must_be_immutable
 class ProductDetails extends StatelessWidget {
-  const ProductDetails({super.key});
+  ProductDataEntity? productDataEntity;
+  ProductDetails({super.key, this.productDataEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -46,36 +48,29 @@ class ProductDetails extends StatelessWidget {
           padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 50.h),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const ProductSlider(items: [
-              ProductItem(
-                imageUrl:
-                    'https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg',
-              ),
-              ProductItem(
-                imageUrl:
-                    'https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg',
-              ),
-              ProductItem(
-                imageUrl:
-                    "https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg",
-              )
-            ], initialIndex: 0),
+            ProductSlider(
+                items: productDataEntity!.images!
+                    .map((url) => Image(image: NetworkImage(url)))
+                    .toList(),
+                initialIndex: 0),
             SizedBox(
               height: 24.h,
             ),
-            const ProductLabel(
-                productName: 'Nike Air Jordon', productPrice: 'EGP 3,500'),
+            ProductLabel(
+                productName: productDataEntity?.title ?? '',
+                productPrice: 'EGP ${productDataEntity?.price}'),
             SizedBox(
               height: 16.h,
             ),
-            const ProductRating(
-                productBuyers: '3,230', productRating: '4.8 (7,500)'),
+            ProductRating(
+                productBuyers: '${productDataEntity?.sold}',
+                productRating:
+                    '${productDataEntity?.ratingsAverage} (${productDataEntity?.ratingsQuantity})'),
             SizedBox(
               height: 16.h,
             ),
-            const ProductDescription(
-                productDescription:
-                    'Nike is a multinational corporation that designs, develops, and sells athletic footwear ,apparel, and accessories'),
+            ProductDescription(
+                productDescription: '${productDataEntity?.description}'),
             ProductSize(
               size: const [35, 38, 39, 40],
               onSelected: () {},

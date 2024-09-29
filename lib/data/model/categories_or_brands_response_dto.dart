@@ -36,7 +36,6 @@ class MetadataDto {
 
 class CategoriesOrBrandsDataDto extends CategoriesOrBrandsDataEntity {
   String? slug;
-
   String? createdAt;
   String? updatedAt;
 

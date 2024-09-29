@@ -8,6 +8,8 @@ abstract class ImageAssets {
   static const String routeLogo = "$imagePath/splash_logo.png";
   static const String splashScreen = "$imagePath/Splash Screen.png";
   static const String categoryCardImage = "$imagePath/category_card_image.png";
+  static const String errorImage =
+      "$imagePath/Network error line icon concept.jpeg";
 
   static const String subcategoryCardImage =
       "$imagePath/sub_category_card_image.png";

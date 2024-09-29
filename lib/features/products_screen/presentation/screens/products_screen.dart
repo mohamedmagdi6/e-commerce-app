@@ -1,53 +1,93 @@
+import 'package:e_commerce_app/di/di.dart';
+import 'package:e_commerce_app/features/product_details/presentation/screen/product_details.dart';
+import 'package:e_commerce_app/features/products_screen/presentation/screens/products_screen_states.dart';
+import 'package:e_commerce_app/features/products_screen/presentation/screens/products_screen_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../core/resources/assets_manager.dart';
 import '../../../../core/resources/values_manager.dart';
-import '../../../../core/widget/home_screen_app_bar.dart';
 import '../widgets/custom_product_widget.dart';
 
+// ignore: must_be_immutable
 class ProductsScreen extends StatelessWidget {
-  const ProductsScreen({super.key});
+  ProductsScreen({super.key});
+
+  ProductsScreenViewModel viewModel = getIt<ProductsScreenViewModel>();
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: const HomeScreenAppBar(
-        automaticallyImplyLeading: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppPadding.p16),
-        child: Column(
-          children: [
-            Expanded(
-              child: GridView.builder(
-                itemCount: 20,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  childAspectRatio: 7 / 9,
+    return BlocBuilder<ProductsScreenViewModel, ProductsScreenStates>(
+        bloc: viewModel..getAllProduts(),
+        builder: (context, state) {
+          if (state is ProductsScreenLoadingState) {
+            return Skeletonizer(
+              child: Scaffold(
+                body: Padding(
+                  padding: const EdgeInsets.all(AppPadding.p16),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: GridView.builder(
+                          itemCount: 20,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 7 / 9,
+                          ),
+                          itemBuilder: (context, index) {
+                            return CustomProductWidget();
+                          },
+                          scrollDirection: Axis.vertical,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                itemBuilder: (context, index) {
-                  return CustomProductWidget(
-                    image: ImageAssets.categoryHomeImage,
-                    title: "Nike Air Jordon",
-                    price: 1100,
-                    rating: 4.7,
-                    discountPercentage: 10,
-                    height: height,
-                    width: width,
-                    description:
-                        "Nike is a multinational corporation that designs, develops, and sells athletic footwear ,apparel, and accessories",
-                  );
-                },
-                scrollDirection: Axis.vertical,
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            );
+          }
+          if (state is ProductsScreenSuccessState) {
+            return Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.all(AppPadding.p16),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: GridView.builder(
+                        itemCount: 20,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio: 7 / 9,
+                        ),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ProductDetails(
+                                      productDataEntity:
+                                          state.responseEntity.data![index])));
+                            },
+                            child: CustomProductWidget(
+                              productDataEntity:
+                                  state.responseEntity.data![index],
+                            ),
+                          );
+                        },
+                        scrollDirection: Axis.vertical,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }
+          return const SizedBox();
+        });
   }
 }
