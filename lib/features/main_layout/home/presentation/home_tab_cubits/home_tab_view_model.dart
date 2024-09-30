@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/resources/assets_manager.dart';
 import 'package:e_commerce_app/domain/entities/categories_or_brands_response_entity.dart';
 import 'package:e_commerce_app/domain/use_cases/all_gategories_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/brands_use_case.dart';
@@ -15,6 +16,16 @@ class HomeTabViewModel extends Cubit<HomeTabStates> {
 
   List<CategoriesOrBrandsDataEntity>? categoryData;
   List<CategoriesOrBrandsDataEntity>? brandsData;
+  final int currentIndex = 0;
+
+  final List<String> adsImages = [
+    ImageAssets.carouselSlider1,
+    ImageAssets.carouselSlider2,
+    ImageAssets.carouselSlider3,
+  ];
+
+  static HomeTabViewModel get(context) => BlocProvider.of(
+      context); // function to return object of HomeTabViewModel.
 
   getAllCategories() async {
     emit(AllCategoriesLoadingState());

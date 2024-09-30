@@ -119,9 +119,9 @@ class LoginScreen extends StatelessWidget {
                         textStyle: getBoldStyle(
                             color: ColorManager.primary, fontSize: AppSize.s18),
                         onTap: () {
-                          // loginScreenViewModel.logIn();
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, Routes.mainRoute, (route) => false);
+                          loginScreenViewModel.logIn();
+                          // Navigator.pushNamedAndRemoveUntil(
+                          //     context, Routes.mainRoute, (route) => false);
                         },
                       ),
                     ),

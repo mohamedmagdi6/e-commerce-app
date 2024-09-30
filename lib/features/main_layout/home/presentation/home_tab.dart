@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../../../../core/resources/assets_manager.dart';
 import 'widgets/custom_ads_widget.dart';
 import 'widgets/custom_category_widget.dart';
 import 'widgets/custom_section_bar.dart';
@@ -15,19 +14,12 @@ import 'widgets/custom_section_bar.dart';
 class HomeTab extends StatelessWidget {
   HomeTab({super.key});
 
-  final int _currentIndex = 0;
-
-  final List<String> adsImages = [
-    ImageAssets.carouselSlider1,
-    ImageAssets.carouselSlider2,
-    ImageAssets.carouselSlider3,
-  ];
-  HomeTabViewModel viewModel = getIt<HomeTabViewModel>();
+  // HomeTabViewModel viewModel = getIt<HomeTabViewModel>();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeTabViewModel, HomeTabStates>(
-      bloc: viewModel
+      bloc: HomeTabViewModel.get(context)
         ..getAllCategories()
         ..getAllBrands(),
       builder: (context, state) {
@@ -35,23 +27,26 @@ class HomeTab extends StatelessWidget {
           child: Column(
             children: [
               CustomAdsWidget(
-                adsImages: adsImages,
-                currentIndex: _currentIndex,
+                adsImages: HomeTabViewModel.get(context).adsImages,
+                currentIndex: HomeTabViewModel.get(context).currentIndex,
               ),
               Column(
                 children: [
                   CustomSectionBar(sectionNname: 'Categories', function: () {}),
-                  viewModel.categoryData != null
+                  HomeTabViewModel.get(context).categoryData != null
                       ? SizedBox(
                           height: 270.h,
                           child: GridView.builder(
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return CustomCategoryWidget(
-                                data: viewModel.categoryData![index],
+                                data: HomeTabViewModel.get(context)
+                                    .categoryData![index],
                               );
                             },
-                            itemCount: viewModel.categoryData!.length,
+                            itemCount: HomeTabViewModel.get(context)
+                                .categoryData!
+                                .length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
@@ -76,17 +71,20 @@ class HomeTab extends StatelessWidget {
                         ),
                   SizedBox(height: 12.h),
                   CustomSectionBar(sectionNname: 'Brands', function: () {}),
-                  viewModel.brandsData != null
+                  HomeTabViewModel.get(context).brandsData != null
                       ? SizedBox(
                           height: 270.h,
                           child: GridView.builder(
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return CustomCategoryWidget(
-                                data: viewModel.brandsData![index],
+                                data: HomeTabViewModel.get(context)
+                                    .brandsData![index],
                               );
                             },
-                            itemCount: viewModel.brandsData!.length,
+                            itemCount: HomeTabViewModel.get(context)
+                                .brandsData!
+                                .length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
