@@ -13,6 +13,7 @@ class ProductsScreenViewModel extends Cubit<ProductsScreenStates> {
       {required this.allProductsUseCase, required this.addProductsUseCase})
       : super(ProductsScreenInitState());
   List<ProductDataEntity> products = [];
+  int numOfProducts = 0;
 
   static ProductsScreenViewModel get(context) => BlocProvider.of(context);
   void getAllProduts() async {
@@ -34,6 +35,7 @@ class ProductsScreenViewModel extends Cubit<ProductsScreenStates> {
     var eihter = await addProductsUseCase.invoke(productId);
     eihter.fold(
       (response) {
+        numOfProducts = response.numOfCartItems!;
         emit(AddProductToCartSuccessState(addProductsToCartEntity: response));
       },
       (error) {
