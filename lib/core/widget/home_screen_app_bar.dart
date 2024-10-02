@@ -79,7 +79,6 @@ class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                         Navigator.pushNamed(context, Routes.cartRoute),
                     icon: BlocBuilder<ProductsScreenViewModel,
                         ProductsScreenStates>(
-                      bloc: ProductsScreenViewModel.get(context),
                       builder: (context, state) {
                         return Badge(
                           label: Text(ProductsScreenViewModel.get(context)

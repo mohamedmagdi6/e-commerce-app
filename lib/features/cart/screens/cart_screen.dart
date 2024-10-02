@@ -1,6 +1,9 @@
+import 'package:e_commerce_app/features/cart/screens/cart_screen_cubit/cart_screen_states.dart';
+import 'package:e_commerce_app/features/cart/screens/cart_screen_cubit/cart_screen_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/resources/assets_manager.dart';
 import '../../../core/resources/color_manager.dart';
 import '../../../core/resources/styles_manager.dart';
@@ -13,65 +16,156 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Cart',
-          style: getMediumStyle(fontSize: 20, color: ColorManager.textColor),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: ImageIcon(
-              AssetImage(
-                IconsAssets.icSearch,
-              ),
-              color: ColorManager.primary,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: ImageIcon(
-              AssetImage(IconsAssets.icCart),
-              color: ColorManager.primary,
-            ),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppPadding.p14),
-        child: Column(
-          children: [
-            Expanded(
-              // the list of cart items ===============
-              child: ListView.separated(
-                itemBuilder: (context, index) => CartItemWidget(
-                  imagePath: ImageAssets.categoryCardImage,
-                  title: 'Nike Air Jordon',
-                  price: 1500,
-                  quantity: 1,
-                  onDeleteTap: () {},
-                  onDecrementTap: (value) {},
-                  onIncrementTap: (value) {},
-                  size: 40,
-                  color: Colors.black,
-                  colorName: 'Black',
+    return BlocBuilder<CartScreenViewModel, CartScreenStates>(
+      bloc: CartScreenViewModel.get(context)..getCartProducts(),
+      builder: (context, state) {
+        if (state is CartScreenLoadingState) {
+          return Skeletonizer(
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'Cart',
+                  style: getMediumStyle(
+                      fontSize: 20, color: ColorManager.textColor),
                 ),
-                separatorBuilder: (context, index) =>
-                    SizedBox(height: AppSize.s12.h),
-                itemCount: 2,
+                centerTitle: true,
+                actions: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: ImageIcon(
+                      AssetImage(
+                        IconsAssets.icSearch,
+                      ),
+                      color: ColorManager.primary,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: ImageIcon(
+                      AssetImage(IconsAssets.icCart),
+                      color: ColorManager.primary,
+                    ),
+                  ),
+                ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(AppPadding.p14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      // the list of cart items ===============
+                      child: ListView.separated(
+                        itemBuilder: (context, index) => CartItemWidget(
+                          imagePath:
+                              "https://ecommerce.routemisr.com/Route-Academy-products/1680403266739-cover.jpeg",
+                          title: '.title!',
+                          price: 22,
+                          quantity: 22,
+                          onDeleteTap: () {},
+                          onDecrementTap: (value) {},
+                          onIncrementTap: (value) {},
+                          size: 40,
+                          color: Colors.black,
+                          colorName: 'Black',
+                        ),
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: AppSize.s12.h),
+                        itemCount:
+                            CartScreenViewModel.get(context).products.length,
+                      ),
+                    ),
+                    // the total price and checkout button========
+                    TotalPriceAndCheckoutBotton(
+                      totalPrice: 1200,
+                      checkoutButtonOnTap: () {},
+                    ),
+                    SizedBox(height: 10.h),
+                  ],
+                ),
               ),
             ),
-            // the total price and checkout button========
-            TotalPriceAndCheckoutBotton(
-              totalPrice: 1200,
-              checkoutButtonOnTap: () {},
+          );
+        }
+        if (state is CartScreenSuccessState) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Cart',
+                style:
+                    getMediumStyle(fontSize: 20, color: ColorManager.textColor),
+              ),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: ImageIcon(
+                    AssetImage(
+                      IconsAssets.icSearch,
+                    ),
+                    color: ColorManager.primary,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: ImageIcon(
+                    AssetImage(IconsAssets.icCart),
+                    color: ColorManager.primary,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 10.h),
-          ],
-        ),
-      ),
+            body: Padding(
+              padding: const EdgeInsets.all(AppPadding.p14),
+              child: Column(
+                children: [
+                  Expanded(
+                    // the list of cart items ===============
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => CartItemWidget(
+                        imagePath: CartScreenViewModel.get(context)
+                            .products[index]
+                            .productItemEntity!
+                            .imageCover!,
+                        title: CartScreenViewModel.get(context)
+                            .products[index]
+                            .productItemEntity!
+                            .title!,
+                        price: CartScreenViewModel.get(context)
+                            .products[index]
+                            .price!,
+                        quantity: CartScreenViewModel.get(context)
+                            .products[index]
+                            .count!,
+                        onDeleteTap: () {},
+                        onDecrementTap: (value) {},
+                        onIncrementTap: (value) {},
+                        size: 40,
+                        color: Colors.black,
+                        colorName: 'Black',
+                      ),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: AppSize.s12.h),
+                      itemCount:
+                          CartScreenViewModel.get(context).products.length,
+                    ),
+                  ),
+                  // the total price and checkout button========
+                  TotalPriceAndCheckoutBotton(
+                    totalPrice: 1200,
+                    checkoutButtonOnTap: () {},
+                  ),
+                  SizedBox(height: 10.h),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+              body: SizedBox(
+            child: Center(child: Text('error')),
+          ));
+        }
+      },
     );
   }
 }

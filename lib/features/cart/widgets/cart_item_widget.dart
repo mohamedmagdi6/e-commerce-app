@@ -39,102 +39,99 @@ class CartItemWidget extends StatelessWidget {
         MediaQuery.of(context).orientation == Orientation.portrait;
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    return InkWell(
-      onTap: () => Navigator.pushNamed(context, Routes.productDetails),
-      child: Container(
-        height: isPortrait ? height * 0.14 : width * 0.23,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(color: ColorManager.primary.withOpacity(0.3)),
+    return Container(
+      height: isPortrait ? height * 0.14 : width * 0.23,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.r),
+        border: Border.all(color: ColorManager.primary.withOpacity(0.3)),
+      ),
+      child: Row(children: [
+        // display image in the container
+        Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.r),
+            border: Border.all(color: ColorManager.primary.withOpacity(0.3)),
+          ),
+          child: Image.network(
+            imagePath,
+            fit: BoxFit.cover,
+            height: isPortrait ? height * 0.142 : height * 0.23,
+            width: isPortrait ? width * 0.29 : 165.w,
+          ),
         ),
-        child: Row(children: [
-          // display image in the container
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              border: Border.all(color: ColorManager.primary.withOpacity(0.3)),
+        // SizedBox(width: 8.w),
+        // display details product=========================
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppPadding.p8.w,
+              vertical: AppPadding.p8.h,
             ),
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-              height: isPortrait ? height * 0.142 : height * 0.23,
-              width: isPortrait ? width * 0.29 : 165.w,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // title and delete button ==
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: getBoldStyle(
+                          color: ColorManager.textColor,
+                          fontSize: AppSize.s18.sp,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: onDeleteTap,
+                      child: Image.asset(
+                        IconsAssets.icDelete,
+                        color: ColorManager.textColor,
+                        height: 22.h,
+                      ),
+                    )
+                  ],
+                ),
+
+                // SizedBox(height: 7.h),
+                const Spacer(),
+                // display color and size===================
+                ColorAndSizeCartItem(
+                  color: color,
+                  colorName: colorName,
+                  size: size,
+                ),
+                const Spacer(),
+                // display price and quantity =================
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'EGP $price',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: getBoldStyle(
+                            color: ColorManager.textColor,
+                            fontSize: AppSize.s18.sp),
+                      ),
+                    ),
+                    ProductCounter(
+                      add: onIncrementTap,
+                      productCounter: quantity,
+                      remove: onDecrementTap,
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
-          // SizedBox(width: 8.w),
-          // display details product=========================
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppPadding.p8.w,
-                vertical: AppPadding.p8.h,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // title and delete button ==
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: getBoldStyle(
-                            color: ColorManager.textColor,
-                            fontSize: AppSize.s18.sp,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: onDeleteTap,
-                        child: Image.asset(
-                          IconsAssets.icDelete,
-                          color: ColorManager.textColor,
-                          height: 22.h,
-                        ),
-                      )
-                    ],
-                  ),
-
-                  // SizedBox(height: 7.h),
-                  const Spacer(),
-                  // display color and size===================
-                  ColorAndSizeCartItem(
-                    color: color,
-                    colorName: colorName,
-                    size: size,
-                  ),
-                  const Spacer(),
-                  // display price and quantity =================
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'EGP $price',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: getBoldStyle(
-                              color: ColorManager.textColor,
-                              fontSize: AppSize.s18.sp),
-                        ),
-                      ),
-                      ProductCounter(
-                        add: onIncrementTap,
-                        productCounter: quantity,
-                        remove: onDecrementTap,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
-        ]),
-      ),
+        )
+      ]),
     );
   }
 }
