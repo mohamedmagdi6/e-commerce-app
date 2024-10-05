@@ -24,4 +24,18 @@ class CartItemsRemoteDataSourceImpl implements CartItemsRemoteDataSource {
       return Right(Failures(errorMessage: cartItemsResponse.message!));
     }
   }
+
+  @override
+  Future<Either<CartItemsDto, Failures>> deleteCartItems(
+      String productId) async {
+    var response = await apiManager.deleteData(
+        '${EndPoints.addProduct}/$productId',
+        headers: {'token': token});
+    CartItemsDto deleteResponse = CartItemsDto.fromJson(response.data);
+    if (response.statusCode! >= 200 && response.statusCode! < 300) {
+      return Left(deleteResponse);
+    } else {
+      return Right(Failures(errorMessage: deleteResponse.message!));
+    }
+  }
 }

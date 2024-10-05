@@ -19,152 +19,154 @@ class CartScreen extends StatelessWidget {
     return BlocBuilder<CartScreenViewModel, CartScreenStates>(
       bloc: CartScreenViewModel.get(context)..getCartProducts(),
       builder: (context, state) {
-        if (state is CartScreenLoadingState) {
-          return Skeletonizer(
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  'Cart',
-                  style: getMediumStyle(
-                      fontSize: 20, color: ColorManager.textColor),
-                ),
-                centerTitle: true,
-                actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: ImageIcon(
-                      AssetImage(
-                        IconsAssets.icSearch,
-                      ),
-                      color: ColorManager.primary,
-                    ),
+        return state is CartScreenSuccessState ||
+                state is DeleteCartItemSuccessState
+            ? Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    'Cart',
+                    style: getMediumStyle(
+                        fontSize: 20, color: ColorManager.textColor),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: ImageIcon(
-                      AssetImage(IconsAssets.icCart),
-                      color: ColorManager.primary,
-                    ),
-                  ),
-                ],
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(AppPadding.p14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      // the list of cart items ===============
-                      child: ListView.separated(
-                        itemBuilder: (context, index) => CartItemWidget(
-                          imagePath:
-                              "https://ecommerce.routemisr.com/Route-Academy-products/1680403266739-cover.jpeg",
-                          title: '.title!',
-                          price: 22,
-                          quantity: 22,
-                          onDeleteTap: () {},
-                          onDecrementTap: (value) {},
-                          onIncrementTap: (value) {},
-                          size: 40,
-                          color: Colors.black,
-                          colorName: 'Black',
+                  centerTitle: true,
+                  actions: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: ImageIcon(
+                        AssetImage(
+                          IconsAssets.icSearch,
                         ),
-                        separatorBuilder: (context, index) =>
-                            SizedBox(height: AppSize.s12.h),
-                        itemCount:
-                            CartScreenViewModel.get(context).products.length,
+                        color: ColorManager.primary,
                       ),
                     ),
-                    // the total price and checkout button========
-                    TotalPriceAndCheckoutBotton(
-                      totalPrice: 1200,
-                      checkoutButtonOnTap: () {},
+                    IconButton(
+                      onPressed: () {},
+                      icon: ImageIcon(
+                        AssetImage(IconsAssets.icCart),
+                        color: ColorManager.primary,
+                      ),
                     ),
-                    SizedBox(height: 10.h),
                   ],
                 ),
-              ),
-            ),
-          );
-        }
-        if (state is CartScreenSuccessState) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Cart',
-                style:
-                    getMediumStyle(fontSize: 20, color: ColorManager.textColor),
-              ),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: ImageIcon(
-                    AssetImage(
-                      IconsAssets.icSearch,
-                    ),
-                    color: ColorManager.primary,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: ImageIcon(
-                    AssetImage(IconsAssets.icCart),
-                    color: ColorManager.primary,
-                  ),
-                ),
-              ],
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(AppPadding.p14),
-              child: Column(
-                children: [
-                  Expanded(
-                    // the list of cart items ===============
-                    child: ListView.separated(
-                      itemBuilder: (context, index) => CartItemWidget(
-                        imagePath: CartScreenViewModel.get(context)
-                            .products[index]
-                            .productItemEntity!
-                            .imageCover!,
-                        title: CartScreenViewModel.get(context)
-                            .products[index]
-                            .productItemEntity!
-                            .title!,
-                        price: CartScreenViewModel.get(context)
-                            .products[index]
-                            .price!,
-                        quantity: CartScreenViewModel.get(context)
-                            .products[index]
-                            .count!,
-                        onDeleteTap: () {},
-                        onDecrementTap: (value) {},
-                        onIncrementTap: (value) {},
-                        size: 40,
-                        color: Colors.black,
-                        colorName: 'Black',
+                body: Padding(
+                  padding: const EdgeInsets.all(AppPadding.p14),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        // the list of cart items ===============
+                        child: ListView.separated(
+                          itemBuilder: (context, index) => CartItemWidget(
+                            imagePath: CartScreenViewModel.get(context)
+                                .products[index]
+                                .productItemEntity!
+                                .imageCover!,
+                            title: CartScreenViewModel.get(context)
+                                .products[index]
+                                .productItemEntity!
+                                .title!,
+                            price: CartScreenViewModel.get(context)
+                                .products[index]
+                                .price!,
+                            quantity: CartScreenViewModel.get(context)
+                                .products[index]
+                                .count!,
+                            onDeleteTap: () {
+                              CartScreenViewModel.get(context).deleteCartItem(
+                                  CartScreenViewModel.get(context)
+                                      .products[index]
+                                      .productItemEntity!
+                                      .id!);
+                              CartScreenViewModel.get(context)
+                                  .getCartProducts();
+                            },
+                            onDecrementTap: (value) {},
+                            onIncrementTap: (value) {},
+                            size: 40,
+                            color: Colors.black,
+                            colorName: 'Black',
+                          ),
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: AppSize.s12.h),
+                          itemCount:
+                              CartScreenViewModel.get(context).products.length,
+                        ),
                       ),
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: AppSize.s12.h),
-                      itemCount:
-                          CartScreenViewModel.get(context).products.length,
+                      // the total price and checkout button========
+                      TotalPriceAndCheckoutBotton(
+                        totalPrice: 12212,
+                        checkoutButtonOnTap: () {},
+                      ),
+                      SizedBox(height: 10.h),
+                    ],
+                  ),
+                ),
+              )
+            : Skeletonizer(
+                child: Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      'Cart',
+                      style: getMediumStyle(
+                          fontSize: 20, color: ColorManager.textColor),
+                    ),
+                    centerTitle: true,
+                    actions: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: ImageIcon(
+                          AssetImage(
+                            IconsAssets.icSearch,
+                          ),
+                          color: ColorManager.primary,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: ImageIcon(
+                          AssetImage(IconsAssets.icCart),
+                          color: ColorManager.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  body: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p14),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          // the list of cart items ===============
+                          child: ListView.separated(
+                            itemBuilder: (context, index) => CartItemWidget(
+                              imagePath:
+                                  "https://ecommerce.routemisr.com/Route-Academy-products/1680403266739-cover.jpeg",
+                              title: '.title!',
+                              price: 22,
+                              quantity: 22,
+                              onDeleteTap: () {},
+                              onDecrementTap: (value) {},
+                              onIncrementTap: (value) {},
+                              size: 40,
+                              color: Colors.black,
+                              colorName: 'Black',
+                            ),
+                            separatorBuilder: (context, index) =>
+                                SizedBox(height: AppSize.s12.h),
+                            itemCount: CartScreenViewModel.get(context)
+                                .products
+                                .length,
+                          ),
+                        ),
+                        // the total price and checkout button========
+                        TotalPriceAndCheckoutBotton(
+                          totalPrice: 1200,
+                          checkoutButtonOnTap: () {},
+                        ),
+                        SizedBox(height: 10.h),
+                      ],
                     ),
                   ),
-                  // the total price and checkout button========
-                  TotalPriceAndCheckoutBotton(
-                    totalPrice: 1200,
-                    checkoutButtonOnTap: () {},
-                  ),
-                  SizedBox(height: 10.h),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return Scaffold(
-              body: SizedBox(
-            child: Center(child: Text('error')),
-          ));
-        }
+                ),
+              );
       },
     );
   }

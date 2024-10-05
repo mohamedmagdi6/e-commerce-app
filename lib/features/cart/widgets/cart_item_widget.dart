@@ -5,7 +5,6 @@ import '../../../core/resources/assets_manager.dart';
 import '../../../core/resources/color_manager.dart';
 import '../../../core/resources/styles_manager.dart';
 import '../../../core/resources/values_manager.dart';
-import '../../../core/routes_manager/routes.dart';
 import '../../../core/widget/product_counter.dart';
 import 'color_and_size_cart_item.dart';
 

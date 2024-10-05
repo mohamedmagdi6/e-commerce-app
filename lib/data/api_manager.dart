@@ -28,4 +28,14 @@ class ApiManager {
           validateStatus: (status) => true,
         ));
   }
+
+  Future<Response> deleteData(String endPoint,
+      {Map<String, dynamic>? body, Map<String, dynamic>? headers}) {
+    return dio.delete(AppConstants.baseUrl + endPoint,
+        data: body,
+        options: Options(
+          headers: headers,
+          validateStatus: (status) => true,
+        ));
+  }
 }
