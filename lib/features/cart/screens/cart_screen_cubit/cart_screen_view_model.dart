@@ -36,12 +36,13 @@ class CartScreenViewModel extends Cubit<CartScreenStates> {
   }
 
   void deleteCartItem(String productId) async {
-    emit(DeleteCartItemLoadingState());
+    // emit(CartScreenLoadingState());
     Either<CartItemsEntity, Failures> either =
         await deleteCartItemsUseCase.invoke(productId);
     either.fold(
       (deleteRespons) {
         emit(CartScreenSuccessState(cartItemsEntity: deleteRespons));
+        getCartProducts();
       },
       (error) {
         print(

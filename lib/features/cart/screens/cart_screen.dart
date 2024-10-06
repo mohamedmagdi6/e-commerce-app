@@ -76,8 +76,6 @@ class CartScreen extends StatelessWidget {
                                       .products[index]
                                       .productItemEntity!
                                       .id!);
-                              CartScreenViewModel.get(context)
-                                  .getCartProducts();
                             },
                             onDecrementTap: (value) {
                               int count = CartScreenViewModel.get(context)
