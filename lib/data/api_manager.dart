@@ -38,4 +38,14 @@ class ApiManager {
           validateStatus: (status) => true,
         ));
   }
+
+  Future<Response> updateData(String endPoint,
+      {Map<String, dynamic>? body, Map<String, dynamic>? headers}) {
+    return dio.put(AppConstants.baseUrl + endPoint,
+        data: body,
+        options: Options(
+          headers: headers,
+          validateStatus: (status) => true,
+        ));
+  }
 }

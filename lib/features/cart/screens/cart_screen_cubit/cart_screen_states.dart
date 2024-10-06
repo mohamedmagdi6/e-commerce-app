@@ -25,3 +25,15 @@ class DeleteCartItemSuccessState extends CartScreenStates {
   CartItemsEntity cartItemsEntity;
   DeleteCartItemSuccessState({required this.cartItemsEntity});
 }
+
+class UpdateCartItemLoadingState extends CartScreenStates {}
+
+class UpdateCartItemFailureState extends CartScreenStates {
+  String failures;
+  UpdateCartItemFailureState({required this.failures});
+}
+
+class UpdateCartItemSuccessState extends CartScreenStates {
+  CartItemsEntity cartItemsEntity;
+  UpdateCartItemSuccessState({required this.cartItemsEntity});
+}

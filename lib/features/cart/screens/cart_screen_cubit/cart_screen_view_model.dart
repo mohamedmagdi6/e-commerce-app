@@ -3,6 +3,7 @@ import 'package:e_commerce_app/domain/entities/cart_items_entity.dart';
 import 'package:e_commerce_app/domain/failures.dart';
 import 'package:e_commerce_app/domain/use_cases/cart_items_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/delete_cart_items_use_case.dart';
+import 'package:e_commerce_app/domain/use_cases/update_product_use_case.dart';
 import 'package:e_commerce_app/features/cart/screens/cart_screen_cubit/cart_screen_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -11,8 +12,11 @@ import 'package:injectable/injectable.dart';
 class CartScreenViewModel extends Cubit<CartScreenStates> {
   CartItemsUseCase cartItemsUseCase;
   DeleteCartItemsUseCase deleteCartItemsUseCase;
+  UpdateProductUseCase updateProductUseCase;
   CartScreenViewModel(
-      {required this.cartItemsUseCase, required this.deleteCartItemsUseCase})
+      {required this.cartItemsUseCase,
+      required this.deleteCartItemsUseCase,
+      required this.updateProductUseCase})
       : super(CartScreenLoadingState());
   List<CartProductsEntity> products = [];
 
@@ -37,12 +41,26 @@ class CartScreenViewModel extends Cubit<CartScreenStates> {
         await deleteCartItemsUseCase.invoke(productId);
     either.fold(
       (deleteRespons) {
-        emit(DeleteCartItemSuccessState(cartItemsEntity: deleteRespons));
+        emit(CartScreenSuccessState(cartItemsEntity: deleteRespons));
       },
       (error) {
         print(
             'error.errorMessage ================================= ${error.errorMessage}');
         emit(DeleteCartItemFailureState(failures: error.errorMessage));
+      },
+    );
+  }
+
+  void updateCartItem(String productId, int productCount) async {
+    emit(UpdateCartItemLoadingState());
+    var either = await updateProductUseCase.invoke(productCount, productId);
+    either.fold(
+      (response) {
+        emit(CartScreenSuccessState(cartItemsEntity: response));
+        getCartProducts();
+      },
+      (error) {
+        emit(UpdateCartItemFailureState(failures: error.errorMessage));
       },
     );
   }

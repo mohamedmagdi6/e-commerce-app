@@ -79,8 +79,31 @@ class CartScreen extends StatelessWidget {
                               CartScreenViewModel.get(context)
                                   .getCartProducts();
                             },
-                            onDecrementTap: (value) {},
-                            onIncrementTap: (value) {},
+                            onDecrementTap: (value) {
+                              int count = CartScreenViewModel.get(context)
+                                  .products[index]
+                                  .count!;
+                              CartScreenViewModel.get(context).updateCartItem(
+                                  CartScreenViewModel.get(context)
+                                      .products[index]
+                                      .productItemEntity!
+                                      .id!,
+                                  count - 1);
+                            },
+                            onIncrementTap: (value) {
+                              int count = CartScreenViewModel.get(context)
+                                  .products[index]
+                                  .count!;
+                              count;
+                              print(
+                                  'count ++++++++==============++++++++++ $count');
+                              CartScreenViewModel.get(context).updateCartItem(
+                                  CartScreenViewModel.get(context)
+                                      .products[index]
+                                      .productItemEntity!
+                                      .id!,
+                                  count + 1);
+                            },
                             size: 40,
                             color: Colors.black,
                             colorName: 'Black',

@@ -28,4 +28,15 @@ class CartItemsRepositoryImpl implements CartItemsRepository {
       (error) => Right(error),
     );
   }
+
+  @override
+  Future<Either<CartItemsEntity, Failures>> updateCartItems(
+      int productCount, String productId) async {
+    var either = await cartItemsRemoteDataSource.updateCartItems(
+        productCount, productId);
+    return either.fold(
+      (response) => Left(response),
+      (error) => Right(error),
+    );
+  }
 }
