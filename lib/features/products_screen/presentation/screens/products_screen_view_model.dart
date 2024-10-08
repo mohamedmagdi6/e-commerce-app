@@ -1,4 +1,6 @@
+import 'package:e_commerce_app/domain/entities/add_product_to_wishlist_enttiy.dart';
 import 'package:e_commerce_app/domain/entities/all_products_response_entity.dart';
+import 'package:e_commerce_app/domain/use_cases/add_product_to_wishlist_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/add_products_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/all_products_use_case.dart';
 import 'package:e_commerce_app/features/products_screen/presentation/screens/products_screen_states.dart';
@@ -9,10 +11,14 @@ import 'package:injectable/injectable.dart';
 class ProductsScreenViewModel extends Cubit<ProductsScreenStates> {
   AllProductsUseCase allProductsUseCase;
   AddProductsUseCase addProductsUseCase;
+  AddProductToWishlistUseCase addProductToWishlistUseCase;
   ProductsScreenViewModel(
-      {required this.allProductsUseCase, required this.addProductsUseCase})
+      {required this.allProductsUseCase,
+      required this.addProductsUseCase,
+      required this.addProductToWishlistUseCase})
       : super(ProductsScreenInitState());
   List<ProductDataEntity> products = [];
+  List<dynamic> whisIds = [];
   int numOfProducts = 0;
 
   static ProductsScreenViewModel get(context) => BlocProvider.of(context);
@@ -40,6 +46,21 @@ class ProductsScreenViewModel extends Cubit<ProductsScreenStates> {
       },
       (error) {
         emit(AddProductToCartFailureState(failures: error));
+      },
+    );
+  }
+
+  void addProductToWishlist(String productId) async {
+    emit(AddProductToWishlistLoadingState());
+    var either = await addProductToWishlistUseCase.invoke(productId);
+    either.fold(
+      (response) {
+        whisIds = response.data!;
+        emit(AddProductToWishlistSuccessState(
+            addProductToWishlistEnttiy: response));
+      },
+      (error) {
+        emit(AddProductToWishlistFailureState(failures: error));
       },
     );
   }

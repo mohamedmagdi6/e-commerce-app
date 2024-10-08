@@ -5,14 +5,16 @@ import '../resources/color_manager.dart';
 
 class HeartButton extends StatefulWidget {
   final void Function()? onTap;
-  const HeartButton({super.key, required this.onTap});
+  final String id;
+  final String? wishId;
+  const HeartButton(
+      {super.key, required this.onTap, required this.id, this.wishId});
 
   @override
   State<HeartButton> createState() => _HeartButtonState();
 }
 
 class _HeartButtonState extends State<HeartButton> {
-  String heartIcon = IconsAssets.icHeart;
   bool isClicked = false;
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,8 @@ class _HeartButtonState extends State<HeartButton> {
       ),
       onTap: () {
         setState(() {
-          isClicked = !isClicked;
-          heartIcon =
-              !isClicked ? IconsAssets.icHeart : IconsAssets.icClickedHeart;
+          // isClicked = !isClicked;
+
           widget.onTap?.call();
         });
       },
@@ -38,8 +39,9 @@ class _HeartButtonState extends State<HeartButton> {
         child: Padding(
             padding: const EdgeInsets.all(6),
             child: ImageIcon(
-              
-              AssetImage(heartIcon),
+              AssetImage(widget.id == widget.wishId
+                  ? IconsAssets.icClickedHeart
+                  : IconsAssets.icHeart),
               color: ColorManager.primary,
             )),
       ),

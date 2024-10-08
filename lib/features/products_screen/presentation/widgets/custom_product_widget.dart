@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/resources/assets_manager.dart';
+import 'package:e_commerce_app/domain/entities/add_product_to_wishlist_enttiy.dart';
 import 'package:e_commerce_app/domain/entities/all_products_response_entity.dart';
 import 'package:e_commerce_app/features/products_screen/presentation/screens/products_screen_view_model.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,9 @@ import '../../../../core/widget/heart_button.dart';
 // ignore: must_be_immutable
 class CustomProductWidget extends StatelessWidget {
   ProductDataEntity? productDataEntity;
+  String? wishId;
 
-  CustomProductWidget({super.key, this.productDataEntity});
+  CustomProductWidget({super.key, this.productDataEntity, this.wishId});
 
   String truncateTitle(String title) {
     List<String> words = title.split(' ');
@@ -66,7 +68,16 @@ class CustomProductWidget extends StatelessWidget {
                     const Image(image: AssetImage(ImageAssets.errorImage)),
               ),
               Positioned(
-                  top: 30.h, right: 30.h, child: HeartButton(onTap: () {})),
+                  top: 30.h,
+                  right: 30.h,
+                  child: HeartButton(
+                    onTap: () {
+                      ProductsScreenViewModel.get(context)
+                          .addProductToWishlist(productDataEntity!.sId!);
+                    },
+                    id: productDataEntity!.sId ?? '',
+                    wishId: wishId,
+                  )),
             ],
           ),
           Expanded(
