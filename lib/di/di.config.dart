@@ -49,6 +49,7 @@ import '../domain/use_cases/all_products_use_case.dart' as _i645;
 import '../domain/use_cases/brands_use_case.dart' as _i135;
 import '../domain/use_cases/cart_items_use_case.dart' as _i88;
 import '../domain/use_cases/delete_cart_items_use_case.dart' as _i314;
+import '../domain/use_cases/delete_wishlist_product_use_case.dart' as _i1024;
 import '../domain/use_cases/get_wishlist_products_use_case.dart' as _i955;
 import '../domain/use_cases/login_use_case.dart' as _i826;
 import '../domain/use_cases/register_use_case.dart' as _i772;
@@ -120,6 +121,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i955.GetWishlistProductsUseCase>(() =>
         _i955.GetWishlistProductsUseCase(
             wishlistTabRepository: gh<_i122.WishlistTabRepository>()));
+    gh.factory<_i1024.DeleteWishlistProductUseCase>(() =>
+        _i1024.DeleteWishlistProductUseCase(
+            wishlistTabRepository: gh<_i122.WishlistTabRepository>()));
+    gh.factory<_i835.FavouriteScreenViewModel>(
+        () => _i835.FavouriteScreenViewModel(
+              wishlistProductsUseCase: gh<_i955.GetWishlistProductsUseCase>(),
+              deleteWishlistProductUseCase:
+                  gh<_i1024.DeleteWishlistProductUseCase>(),
+            ));
     gh.factory<_i890.RegisterScreenViewModel>(() =>
         _i890.RegisterScreenViewModel(
             registerUseCase: gh<_i772.RegisterUseCase>()));
@@ -128,9 +138,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i104.AddProductToWishlistUseCase>(() =>
         _i104.AddProductToWishlistUseCase(
             productsTabRepository: gh<_i961.ProductsTabRepository>()));
-    gh.factory<_i835.FavouriteScreenViewModel>(() =>
-        _i835.FavouriteScreenViewModel(
-            wishlistProductsUseCase: gh<_i955.GetWishlistProductsUseCase>()));
     gh.factory<_i53.AllCategoriesUseCase>(() => _i53.AllCategoriesUseCase(
         homeTabRepository: gh<_i1052.HomeTabRepository>()));
     gh.factory<_i135.BrandsUseCase>(() =>

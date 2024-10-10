@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/domain/entities/all_products_response_entity.dart';
+import 'package:e_commerce_app/features/main_layout/favourite/presentation/favourite_screen_cubit/favourite_screen_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -64,7 +65,8 @@ class FavoriteItem extends StatelessWidget {
             children: [
               HeartButton(
                 onTap: () {
-                  //TODO:remove product from wish list
+                  FavouriteScreenViewModel.get(context)
+                      .deleteWishlistProduct(productDataEntity?.sId ?? '');
                 },
                 id: '',
               ),
