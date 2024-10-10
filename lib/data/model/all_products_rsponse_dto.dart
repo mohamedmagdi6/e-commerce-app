@@ -7,12 +7,18 @@ class AllProductsResponseDto extends AllProductsResponseEntity {
   String? message;
 
   AllProductsResponseDto(
-      {super.results, this.metadata, super.data, this.message, this.statusMsg});
+      {super.results,
+      this.metadata,
+      super.data,
+      this.message,
+      this.statusMsg,
+      super.count});
 
   AllProductsResponseDto.fromJson(Map<String, dynamic> json) {
     results = json['results'];
     statusMsg = json['statusMsg'];
     message = json['message'];
+    count = json['count'];
     metadata = json['metadata'] != null
         ? new Metadata.fromJson(json['metadata'])
         : null;

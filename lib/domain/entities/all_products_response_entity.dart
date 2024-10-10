@@ -3,8 +3,9 @@ import 'package:e_commerce_app/domain/entities/categories_or_brands_response_ent
 class AllProductsResponseEntity {
   int? results;
   List<ProductDataEntity>? data;
+  int? count;
 
-  AllProductsResponseEntity({this.results, this.data});
+  AllProductsResponseEntity({this.results, this.data, this.count});
 }
 
 class ProductDataEntity {

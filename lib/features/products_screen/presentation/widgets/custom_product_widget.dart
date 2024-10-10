@@ -75,7 +75,9 @@ class CustomProductWidget extends StatelessWidget {
                       ProductsScreenViewModel.get(context)
                           .addProductToWishlist(productDataEntity!.sId!);
                     },
-                    id: productDataEntity!.sId ?? '',
+                    id: productDataEntity == null
+                        ? ''
+                        : productDataEntity!.sId ?? '',
                     wishId: wishId,
                   )),
             ],

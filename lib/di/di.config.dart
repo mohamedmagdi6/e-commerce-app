@@ -28,14 +28,20 @@ import '../data/data_sources/remote_data_source/products_tab_rmote_data_source/a
     as _i401;
 import '../data/data_sources/remote_data_source/products_tab_rmote_data_source/all_products_remote_data_source_impl.dart'
     as _i79;
+import '../data/data_sources/remote_data_source/wishlist_tab_remote_data_source/wishlist_remote_data_source_impl.dart'
+    as _i1029;
+import '../data/data_sources/remote_data_source/wishlist_tab_remote_data_source/wishlist_tab_remote_data_source.dart'
+    as _i1030;
 import '../data/repository/all_products_repository_impl.dart' as _i567;
 import '../data/repository/auth_repository_impl.dart' as _i461;
 import '../data/repository/cart_items_repository_impl.dart' as _i1018;
 import '../data/repository/home_tab_repository_impl.dart' as _i859;
+import '../data/repository/wishlist_tab_repository_impl.dart' as _i343;
 import '../domain/repository/auth_repository.dart' as _i306;
 import '../domain/repository/cart_items_repository.dart' as _i499;
 import '../domain/repository/home_tab_repository.dart' as _i1052;
 import '../domain/repository/products_tab_repository.dart' as _i961;
+import '../domain/repository/wishlist_tab_repository.dart' as _i122;
 import '../domain/use_cases/add_product_to_wishlist_use_case.dart' as _i104;
 import '../domain/use_cases/add_products_use_case.dart' as _i1028;
 import '../domain/use_cases/all_gategories_use_case.dart' as _i53;
@@ -43,6 +49,7 @@ import '../domain/use_cases/all_products_use_case.dart' as _i645;
 import '../domain/use_cases/brands_use_case.dart' as _i135;
 import '../domain/use_cases/cart_items_use_case.dart' as _i88;
 import '../domain/use_cases/delete_cart_items_use_case.dart' as _i314;
+import '../domain/use_cases/get_wishlist_products_use_case.dart' as _i955;
 import '../domain/use_cases/login_use_case.dart' as _i826;
 import '../domain/use_cases/register_use_case.dart' as _i772;
 import '../domain/use_cases/update_product_use_case.dart' as _i607;
@@ -52,6 +59,8 @@ import '../features/auth/presentation/screens/register/register_screen_view_mode
     as _i890;
 import '../features/cart/screens/cart_screen_cubit/cart_screen_view_model.dart'
     as _i504;
+import '../features/main_layout/favourite/presentation/favourite_screen_cubit/favourite_screen_view_model.dart'
+    as _i835;
 import '../features/main_layout/home/presentation/home_tab_cubits/home_tab_view_model.dart'
     as _i898;
 import '../features/products_screen/presentation/screens/products_screen_view_model.dart'
@@ -85,6 +94,9 @@ extension GetItInjectableX on _i174.GetIt {
             apiManager: gh<_i704.ApiManager>()));
     gh.factory<_i490.HomeTabRemoteDataSource>(() =>
         _i710.HomeTabRemoteDataSourceImpl(apiManager: gh<_i704.ApiManager>()));
+    gh.factory<_i1030.WishlistTabRemoteDataSource>(() =>
+        _i1029.WishlistRemoteDataSourceImpl(
+            apiManager: gh<_i704.ApiManager>()));
     gh.factory<_i912.LoginScreenViewModel>(() =>
         _i912.LoginScreenViewModel(loginUseCase: gh<_i826.LoginUseCase>()));
     gh.factory<_i499.CartItemsRepository>(() => _i1018.CartItemsRepositoryImpl(
@@ -99,8 +111,15 @@ extension GetItInjectableX on _i174.GetIt {
                 gh<_i401.ProductsTabRemoteDataSource>()));
     gh.factory<_i88.CartItemsUseCase>(() => _i88.CartItemsUseCase(
         cartItemRepository: gh<_i499.CartItemsRepository>()));
+    gh.factory<_i122.WishlistTabRepository>(() =>
+        _i343.WishlistTabRepositoryImpl(
+            wishlistTabRemoteDataSource:
+                gh<_i1030.WishlistTabRemoteDataSource>()));
     gh.factory<_i1052.HomeTabRepository>(() => _i859.HomeTabRepositoryImpl(
         homeTabRemoteDataSource: gh<_i490.HomeTabRemoteDataSource>()));
+    gh.factory<_i955.GetWishlistProductsUseCase>(() =>
+        _i955.GetWishlistProductsUseCase(
+            wishlistTabRepository: gh<_i122.WishlistTabRepository>()));
     gh.factory<_i890.RegisterScreenViewModel>(() =>
         _i890.RegisterScreenViewModel(
             registerUseCase: gh<_i772.RegisterUseCase>()));
@@ -109,6 +128,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i104.AddProductToWishlistUseCase>(() =>
         _i104.AddProductToWishlistUseCase(
             productsTabRepository: gh<_i961.ProductsTabRepository>()));
+    gh.factory<_i835.FavouriteScreenViewModel>(() =>
+        _i835.FavouriteScreenViewModel(
+            wishlistProductsUseCase: gh<_i955.GetWishlistProductsUseCase>()));
     gh.factory<_i53.AllCategoriesUseCase>(() => _i53.AllCategoriesUseCase(
         homeTabRepository: gh<_i1052.HomeTabRepository>()));
     gh.factory<_i135.BrandsUseCase>(() =>
