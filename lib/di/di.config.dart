@@ -102,6 +102,8 @@ extension GetItInjectableX on _i174.GetIt {
         _i912.LoginScreenViewModel(loginUseCase: gh<_i826.LoginUseCase>()));
     gh.factory<_i499.CartItemsRepository>(() => _i1018.CartItemsRepositoryImpl(
         cartItemsRemoteDataSource: gh<_i97.CartItemsRemoteDataSource>()));
+    gh.factory<_i1028.AddProductsUseCase>(() => _i1028.AddProductsUseCase(
+        cartItemsRepository: gh<_i499.CartItemsRepository>()));
     gh.factory<_i314.DeleteCartItemsUseCase>(() => _i314.DeleteCartItemsUseCase(
         cartItemsRepository: gh<_i499.CartItemsRepository>()));
     gh.factory<_i607.UpdateProductUseCase>(() => _i607.UpdateProductUseCase(
@@ -133,11 +135,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i890.RegisterScreenViewModel>(() =>
         _i890.RegisterScreenViewModel(
             registerUseCase: gh<_i772.RegisterUseCase>()));
-    gh.factory<_i1028.AddProductsUseCase>(() => _i1028.AddProductsUseCase(
-        productsTabRepository: gh<_i961.ProductsTabRepository>()));
     gh.factory<_i104.AddProductToWishlistUseCase>(() =>
         _i104.AddProductToWishlistUseCase(
             productsTabRepository: gh<_i961.ProductsTabRepository>()));
+    gh.factory<_i504.CartScreenViewModel>(() => _i504.CartScreenViewModel(
+          cartItemsUseCase: gh<_i88.CartItemsUseCase>(),
+          deleteCartItemsUseCase: gh<_i314.DeleteCartItemsUseCase>(),
+          updateProductUseCase: gh<_i607.UpdateProductUseCase>(),
+          addProductsUseCase: gh<_i1028.AddProductsUseCase>(),
+        ));
     gh.factory<_i53.AllCategoriesUseCase>(() => _i53.AllCategoriesUseCase(
         homeTabRepository: gh<_i1052.HomeTabRepository>()));
     gh.factory<_i135.BrandsUseCase>(() =>
@@ -148,15 +154,9 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i645.AllProductsUseCase>(() => _i645.AllProductsUseCase(
         allProdactsRepository: gh<_i961.ProductsTabRepository>()));
-    gh.factory<_i504.CartScreenViewModel>(() => _i504.CartScreenViewModel(
-          cartItemsUseCase: gh<_i88.CartItemsUseCase>(),
-          deleteCartItemsUseCase: gh<_i314.DeleteCartItemsUseCase>(),
-          updateProductUseCase: gh<_i607.UpdateProductUseCase>(),
-        ));
     gh.factory<_i979.ProductsScreenViewModel>(() =>
         _i979.ProductsScreenViewModel(
           allProductsUseCase: gh<_i645.AllProductsUseCase>(),
-          addProductsUseCase: gh<_i1028.AddProductsUseCase>(),
           addProductToWishlistUseCase: gh<_i104.AddProductToWishlistUseCase>(),
         ));
     return this;

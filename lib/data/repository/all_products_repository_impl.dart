@@ -21,16 +21,6 @@ class AllProductsRepositoryImpl implements ProductsTabRepository {
   }
 
   @override
-  Future<Either<AddProductsToCartEntity, Failures>> addProduct(
-      String productId) async {
-    var either = await productsTabRemoteDataSource.addProduct(productId);
-    return either.fold(
-      (response) => Left(response),
-      (error) => Right(error),
-    );
-  }
-
-  @override
   Future<Either<AddProductToWishlistEnttiy, Failures>> addProductToWishlist(
       String productId) async {
     var either =

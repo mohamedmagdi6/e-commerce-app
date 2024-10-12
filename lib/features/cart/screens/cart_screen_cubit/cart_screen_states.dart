@@ -1,4 +1,6 @@
+import 'package:e_commerce_app/domain/entities/add_products_to_cart_entity.dart';
 import 'package:e_commerce_app/domain/entities/cart_items_entity.dart';
+import 'package:e_commerce_app/domain/failures.dart';
 
 class CartScreenStates {}
 
@@ -36,4 +38,16 @@ class UpdateCartItemFailureState extends CartScreenStates {
 class UpdateCartItemSuccessState extends CartScreenStates {
   CartItemsEntity cartItemsEntity;
   UpdateCartItemSuccessState({required this.cartItemsEntity});
+}
+
+class AddProductToCartLoadingState extends CartScreenStates {}
+
+class AddProductToCartFailureState extends CartScreenStates {
+  Failures failures;
+  AddProductToCartFailureState({required this.failures});
+}
+
+class AddProductToCartSuccessState extends CartScreenStates {
+  AddProductsToCartEntity addProductsToCartEntity;
+  AddProductToCartSuccessState({required this.addProductsToCartEntity});
 }

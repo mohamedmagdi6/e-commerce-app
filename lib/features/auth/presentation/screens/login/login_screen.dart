@@ -19,7 +19,8 @@ import '../../../../../core/widget/validators.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  LoginScreenViewModel loginScreenViewModel = getIt<LoginScreenViewModel>();
+  final LoginScreenViewModel loginScreenViewModel =
+      getIt<LoginScreenViewModel>();
 
   @override
   Widget build(BuildContext context) {

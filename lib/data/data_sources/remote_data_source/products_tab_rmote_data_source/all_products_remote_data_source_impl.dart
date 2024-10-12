@@ -25,22 +25,6 @@ class AllProductsRemoteDataSourceImpl implements ProductsTabRemoteDataSource {
   }
 
   var token = SharedPrefrenceUtils.getData(key: 'token');
-  @override
-  Future<Either<AddProductsToCartDto, Failures>> addProduct(
-      String productId) async {
-    var respons = await apiManager.postData(EndPoints.addProduct, headers: {
-      'token': token.toString(),
-    }, body: {
-      'productId': productId
-    });
-    var addProductResponse = AddProductsToCartDto.fromJson(respons.data);
-
-    if (respons.statusCode! >= 200 && respons.statusCode! < 300) {
-      return Left(addProductResponse);
-    } else {
-      return Right(Failures(errorMessage: addProductResponse.message!));
-    }
-  }
 
   @override
   Future<Either<AddProductToWishlistDto, Failures>> addProductToWishlist(

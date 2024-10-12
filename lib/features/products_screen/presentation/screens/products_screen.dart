@@ -10,23 +10,11 @@ import '../widgets/custom_product_widget.dart';
 
 // ignore: must_be_immutable
 class ProductsScreen extends StatelessWidget {
-  ProductsScreen({super.key});
+  const ProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProductsScreenViewModel, ProductsScreenStates>(
-        listener: (context, state) {
-          if (state is AddProductToCartLoadingState) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('loading ..')));
-          } else if (state is AddProductToCartFailureState) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('error')));
-          } else if (state is AddProductToCartSuccessState) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('success')));
-          }
-        },
+    return BlocBuilder<ProductsScreenViewModel, ProductsScreenStates>(
         bloc: ProductsScreenViewModel.get(context)..getAllProduts(),
         builder: (context, state) {
           return ProductsScreenViewModel.get(context).products.isEmpty

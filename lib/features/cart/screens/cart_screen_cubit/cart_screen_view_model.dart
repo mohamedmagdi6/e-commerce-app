@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce_app/domain/entities/cart_items_entity.dart';
 import 'package:e_commerce_app/domain/failures.dart';
+import 'package:e_commerce_app/domain/use_cases/add_products_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/cart_items_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/delete_cart_items_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/update_product_use_case.dart';
@@ -13,12 +14,15 @@ class CartScreenViewModel extends Cubit<CartScreenStates> {
   CartItemsUseCase cartItemsUseCase;
   DeleteCartItemsUseCase deleteCartItemsUseCase;
   UpdateProductUseCase updateProductUseCase;
+  AddProductsUseCase addProductsUseCase;
   CartScreenViewModel(
       {required this.cartItemsUseCase,
       required this.deleteCartItemsUseCase,
-      required this.updateProductUseCase})
+      required this.updateProductUseCase,
+      required this.addProductsUseCase})
       : super(CartScreenLoadingState());
   List<CartProductsEntity> products = [];
+  int numOfProducts = 0;
 
   static CartScreenViewModel get(context) => BlocProvider.of(context);
   void getCartProducts() async {
@@ -26,6 +30,7 @@ class CartScreenViewModel extends Cubit<CartScreenStates> {
     Either<CartItemsEntity, Failures> either = await cartItemsUseCase.invoke();
     either.fold(
       (cartResponse) {
+        numOfProducts = cartResponse.numOfCartItems!;
         products = cartResponse.cartDataEntity!.cartProductsEntity!;
         emit(CartScreenSuccessState(cartItemsEntity: cartResponse));
       },
@@ -45,8 +50,6 @@ class CartScreenViewModel extends Cubit<CartScreenStates> {
         getCartProducts();
       },
       (error) {
-        print(
-            'error.errorMessage ================================= ${error.errorMessage}');
         emit(DeleteCartItemFailureState(failures: error.errorMessage));
       },
     );
@@ -62,6 +65,20 @@ class CartScreenViewModel extends Cubit<CartScreenStates> {
       },
       (error) {
         emit(UpdateCartItemFailureState(failures: error.errorMessage));
+      },
+    );
+  }
+
+  void addProductToCart(String productId) async {
+    emit(AddProductToCartLoadingState());
+    var eihter = await addProductsUseCase.invoke(productId);
+    eihter.fold(
+      (response) {
+        numOfProducts = response.numOfCartItems!;
+        emit(AddProductToCartSuccessState(addProductsToCartEntity: response));
+      },
+      (error) {
+        emit(AddProductToCartFailureState(failures: error));
       },
     );
   }

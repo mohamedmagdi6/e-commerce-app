@@ -3,6 +3,7 @@ import 'package:e_commerce_app/core/shared_prefrence_utils.dart';
 import 'package:e_commerce_app/data/api_manager.dart';
 import 'package:e_commerce_app/data/data_sources/remote_data_source/cart_items_data_source/cart_items_remote_data_source.dart';
 import 'package:e_commerce_app/data/end_points.dart';
+import 'package:e_commerce_app/data/model/add_products_cart_dto.dart';
 import 'package:e_commerce_app/data/model/cart_items_dto.dart';
 import 'package:e_commerce_app/domain/entities/cart_items_entity.dart';
 import 'package:e_commerce_app/domain/failures.dart';
@@ -52,6 +53,23 @@ class CartItemsRemoteDataSourceImpl implements CartItemsRemoteDataSource {
       return Left(updateResponse);
     } else {
       return Right(Failures(errorMessage: updateResponse.message!));
+    }
+  }
+
+  @override
+  Future<Either<AddProductsToCartDto, Failures>> addProductToCart(
+      String productId) async {
+    var respons = await apiManager.postData(EndPoints.addProduct, headers: {
+      'token': token.toString(),
+    }, body: {
+      'productId': productId
+    });
+    var addProductResponse = AddProductsToCartDto.fromJson(respons.data);
+
+    if (respons.statusCode! >= 200 && respons.statusCode! < 300) {
+      return Left(addProductResponse);
+    } else {
+      return Right(Failures(errorMessage: addProductResponse.message!));
     }
   }
 }

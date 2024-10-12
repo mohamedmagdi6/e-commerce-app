@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/features/cart/screens/cart_screen_cubit/cart_screen_states.dart';
+import 'package:e_commerce_app/features/cart/screens/cart_screen_cubit/cart_screen_view_model.dart';
 import 'package:e_commerce_app/features/products_screen/presentation/screens/products_screen_states.dart';
 import 'package:e_commerce_app/features/products_screen/presentation/screens/products_screen_view_model.dart';
 import 'package:flutter/material.dart';
@@ -77,11 +79,11 @@ class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
                 IconButton(
                     onPressed: () =>
                         Navigator.pushNamed(context, Routes.cartRoute),
-                    icon: BlocBuilder<ProductsScreenViewModel,
-                        ProductsScreenStates>(
+                    icon: BlocBuilder<CartScreenViewModel, CartScreenStates>(
+                      bloc: CartScreenViewModel.get(context)..getCartProducts(),
                       builder: (context, state) {
                         return Badge(
-                          label: Text(ProductsScreenViewModel.get(context)
+                          label: Text(CartScreenViewModel.get(context)
                               .numOfProducts
                               .toString()),
                           child: ImageIcon(

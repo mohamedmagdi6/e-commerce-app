@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce_app/data/data_sources/remote_data_source/cart_items_data_source/cart_items_remote_data_source.dart';
+import 'package:e_commerce_app/domain/entities/add_products_to_cart_entity.dart';
 import 'package:e_commerce_app/domain/entities/cart_items_entity.dart';
 import 'package:e_commerce_app/domain/failures.dart';
 import 'package:e_commerce_app/domain/repository/cart_items_repository.dart';
@@ -34,6 +35,16 @@ class CartItemsRepositoryImpl implements CartItemsRepository {
       int productCount, String productId) async {
     var either = await cartItemsRemoteDataSource.updateCartItems(
         productCount, productId);
+    return either.fold(
+      (response) => Left(response),
+      (error) => Right(error),
+    );
+  }
+
+  @override
+  Future<Either<AddProductsToCartEntity, Failures>> addProductToCart(
+      String productId) async {
+    var either = await cartItemsRemoteDataSource.addProductToCart(productId);
     return either.fold(
       (response) => Left(response),
       (error) => Right(error),
